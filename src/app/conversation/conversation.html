@@ -1,1 +1,26 @@
-<h1>Conversation</h1>
+<h1>Conversation {{conversation.data.attributes.length}}</h1>
+
+<a href="" ui-sref="in.menu">Back</a>
+
+<h4 ng-hide="conversation.relationships.whoami">Alone</h4>
+
+<ul ng-repeat="message in conversation.relationships.messages">
+  <li ng-class="{right: message.relationships.author === user}">
+    {{message.data.attributes.text}}
+  </li>
+</ul>
+
+
+<input type="text" ng-model="text" ng-disabled="disabled()">
+<button ng-click="post(text)" ng-disabled="disabled()">Post</button>
+
+<h1 ng-show="conversation.data.attributes.status === 'finished'">FINISHED</h1>
+
+<div ng-show="showSurvey()">
+  <button ng-click="answer('bot')">Bot</button>
+  <button ng-click="answer('human')">Human</button>
+</div>
+
+<div ng-show="conversation.data.attributes.answer">
+  Answer was {{conversation.data.attributes.answer}} - true {{conversation.data.attributes.respondent}}
+</div>

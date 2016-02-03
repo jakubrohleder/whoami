@@ -8,19 +8,26 @@
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider, uuid4Regex) {
     $stateProvider
+      .state('cable', {
+        url: '/cable',
+        templateUrl: 'app/cable/cable.html',
+        controller: 'CableController'
+      })
       .state('start', {
         url: '/start',
         templateUrl: 'app/start/start.html',
         controller: 'StartController',
         resolve: {
-          user: function($state) {
-            var user = localStorage.getItem('user')
+          user: function($state, $q, $timeout) {
+            var userId = localStorage.getItem('userId')
 
-            if (user !== null) {
-              $state.go('in.start');
+            if (userId !== null) {
+              $timeout(function() {
+                $state.go('in.menu');
+              });
+
+              return $q.reject();
             }
-
-            return user;
           }
         }
       })
@@ -29,19 +36,36 @@
         abstract: true,
         template: '<ui-view></ui-view>',
         resolve: {
-          user: function($state) {
-            var user = localStorage.getItem('user')
+          user: function($state, $q, $timeout, Users) {
+            var userId = localStorage.getItem('userId')
+            var deffered = $q.defer();
 
-            if (user === null) {
-              $state.go('start');
+            if (userId === null) {
+              gotoStart();
             }
 
-            return user;
+            var user = Users.get(userId);
+
+            user.promise.then(function() {
+              deffered.resolve(user);
+            }, function() {
+              localStorage.removeItem('userId');
+              gotoStart();
+            });
+
+            return deffered.promise;
+
+            function gotoStart() {
+              $timeout(function() {
+                $state.go('start');
+              });
+              deffered.reject();
+            }
           }
         }
       })
-      .state('in.start', {
-        url: '',
+      .state('in.menu', {
+        url: '/',
         templateUrl: 'app/main/main.html',
         controller: 'MainController',
         resolve: {

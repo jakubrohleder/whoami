@@ -1,1 +1,34 @@
 <h1>Main</h1>
+
+<a href="" ng-click="join()">Join conversation</a>
+<a href="" ng-click="start()">Start new conversation</a>
+
+<input type="text" ng-model="length">
+
+<h3>Open</h3>
+<ul ng-repeat="conversation in conversations.data | filter:{data:{attributes:{status: 'open'}}}">
+  <li>
+    <a href="" ui-sref="in.conversation({id: conversation.data.id})">
+      {{conversation.data.id}}
+    </a>
+    <strong ng-show="conversation.relationships.author === user">Yours</strong>
+  </li>
+</ul>
+
+<h3>Active</h3>
+<ul ng-repeat="conversation in conversations.data | filter:{data:{attributes:{status: 'active'}}}">
+  <li>
+    <a href="" ui-sref="in.conversation({id: conversation.data.id})">
+      {{conversation.data.id}}
+    </a>
+  </li>
+</ul>
+
+<h3>Finished</h3>
+<ul ng-repeat="conversation in conversations.data | filter:{data:{attributes:{status: 'finished'}}}">
+  <li>
+    <a href="" ui-sref="in.conversation({id: conversation.data.id})">
+      {{conversation.data.id}}
+    </a>
+  </li>
+</ul>
