@@ -1,5 +1,20 @@
-<h1>Start</h1>
+<div class="container" ng-hide="welcomeMessageShow">
+  <div class="content">
+    <span class="input input__name input--hoshi">
+      <input class="input__field input__field--hoshi" type="text" id="input-4" ng-model="user.form.data.attributes.name">
+      <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="input-4" ng-hide="user.data.attributes.name">
+        <span class="input__label-content input__label-content--hoshi">Your Name</span>
+      </label>
+      <i class="fa fa-arrow-right input__icon--hoshi" ng-click="letsGo()"></i>
+    </span>
+  </div>
+</div>
 
-<input ng-model="user.form.data.attributes.name">
-
-<button ng-click="letsGo()">lets go</button>
+<div class="container" ng-show="welcomeMessageShow">
+  <div class="content">
+    <div class="profile">
+      <h1 class="profile__name">Hi {{user.data.attributes.name}}</h1>
+      <img class="profile__image" ng-src="http://robohash.org/{{user.data.attributes.name}}" alt="">
+    </div>
+  </div>
+</div>

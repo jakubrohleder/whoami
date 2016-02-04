@@ -1,6 +1,20 @@
-<h1>Main</h1>
 
-<a href="" ng-click="join()">Join conversation</a>
+<div class="container">
+  <div class="content">
+    <div class="icon-buttons">
+      <div class="icon-buttons__button" ng-click="join()" ng-class="{'icon-buttons__button--disabled': !open.length}">
+        <i class="fa fa-arrow-right icon-buttons__icon"></i>
+        <h2 class="icon-buttons__text">Join conversation</h2>
+      </div>
+      <div class="icon-buttons__button" ng-click="start()">
+        <i class="fa fa-arrow-right icon-buttons__icon"></i>
+        <h2 class="icon-buttons__text">Start new conversation</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <a href="" ng-click="join()">Join conversation</a>
 <a href="" ng-click="start()">Start new conversation</a>
 
 <input type="text" ng-model="length">
@@ -31,4 +45,4 @@
       {{conversation.data.id}}
     </a>
   </li>
-</ul>
+</ul> -->

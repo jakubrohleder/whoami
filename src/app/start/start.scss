@@ -1,0 +1,13 @@
+img.profile__image {
+  width: 8em;
+  height: 8em;
+  margin: auto;
+  object-fit: cover;
+
+  border: 5px #ddd solid;
+  border-radius: 50%;
+}
+
+.profile, .input__name {
+  text-align: center;
+}

@@ -6,7 +6,7 @@
     .controller('ConversationController', ConversationController);
 
   /** @ngInject */
-  function ConversationController($scope, $state, $cable, $timeout, Messages, conversation, user, cleverbot) {
+  function ConversationController($scope, $state, $cable, $timeout, $q, Messages, conversation, user, cleverbot) {
     $scope.conversation = conversation;
     $scope.user = user;
 
@@ -29,7 +29,9 @@
     conversationChannel.on('updated', function(data){
       console.log('Updated ', data);
       $timeout(function(){
-        $scope.conversation.refresh();
+        $scope.conversation.refresh().then(function() {
+          console.log($scope.conversation.data.attributes.respondent);
+        });
       }, 20);
     });
 
@@ -42,6 +44,7 @@
 
     $scope.disabled = disabled;
     $scope.showSurvey = showSurvey;
+    $scope.showDisabledSurvey = showDisabledSurvey;
     $scope.answer = answer;
 
     function answer(argument) {
@@ -67,18 +70,49 @@
       ;
     }
 
+    function showDisabledSurvey() {
+      return user !== conversation.relationships.author
+        && conversation.data.attributes.status === 'finished'
+        && conversation.data.attributes.answer === null
+      ;
+    }
+
     $scope.$watch('conversation.relationships.messages.length', function(length) {
-      if (user === conversation.relationships.whoami && length%2 === 1) {
+      if (user === conversation.relationships.whoami && conversation.data.attributes.respondent === 'bot' && length % 2 === 1) {
         console.log('Clever response');
-        cleverbot.ask("Just a small town girl", function (err, response) {
-          console.log(response); // Will likely be: "Living in a lonely world"
-          $timeout(function () {
-            post(response);
-          }, 500);
+        var lastMessage = conversation.relationships.messages[conversation.relationships.messages.length - 1];
+        var text = lastMessage.data.attributes.text;
+        console.log(text);
+        getCleverbotAnswer(text).then(post)
+      }
+    });
+
+
+    function getCleverbotAnswer(text, errorNb) {
+      var deffered = $q.defer();
+      errorNb = errorNb === undefined ? 1 : errorNb;
+
+      if (errorNb > 2) {
+        deffered.reject();
+      } else {
+        cleverbot.ask(text, function (err, response) {
+          if (err === true) {
+            console.log('Error nb', errorNb, response);
+            $timeout(function () {
+              getCleverbotAnswer(text, errorNb + 1).then(function(answer) {
+                deffered.resolve(answer);
+              }, deffered.reject);
+            }, 500);
+          } else {
+            $timeout(function () {
+              deffered.resolve(response);
+            }, 500);
+          }
         });
       }
-    })
 
+      return deffered.promise;
+    }
 
     function post(text) {
       var message = Messages.initialize();

@@ -1,0 +1,59 @@
+$blue: hsl(200, 100%, 50%);
+
+.icon-buttons {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.icon-buttons__button {
+  height: 10em;
+  width: 10em;
+  border: 5px $blue solid;
+  margin: 1em;
+  padding: .5em;
+  transition: all .5s;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $blue;
+
+    .icon-buttons__icon, .icon-buttons__text {
+      opacity: 1 !important;
+    }
+  }
+}
+
+.icon-buttons__icon {
+  font-size: 4em;
+  color: $blue;
+  opacity: .7;
+  margin-bottom: .1em;
+  transition: all .5s;
+
+}
+
+.icon-buttons__text {
+  font-size: 1.4em;
+  color: $blue;
+  opacity: .7 !important;
+  transition: all .5s;
+}
+
+.icon-buttons__button--disabled {
+  border: 5px #eee solid;
+  cursor: default;
+  outline: none;
+
+  &:hover {
+    border-color: #eee;
+  }
+
+  .icon-buttons__icon {
+    color: #ddd;
+  }
+
+  .icon-buttons__text {
+    color: #ddd;
+  }
+}

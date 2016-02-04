@@ -1,26 +1,69 @@
-<h1>Conversation {{conversation.data.attributes.length}}</h1>
-
-<a href="" ui-sref="in.menu">Back</a>
-
-<h4 ng-hide="conversation.relationships.whoami">Alone</h4>
-
-<ul ng-repeat="message in conversation.relationships.messages">
-  <li ng-class="{right: message.relationships.author === user}">
-    {{message.data.attributes.text}}
-  </li>
-</ul>
+<div class="container">
+  <div class="header">
+    <h1 class="header__heading">Conversation {{conversation.data.attributes.length}}</h1>
+    <h4>{{conversation.data.attributes.length * 2 - conversation.relationships.messages.length}} messages till the judgment</h4>
+    <a class="header__subheading" href="" ui-sref="in.menu">Back</a>
+  </div>
 
 
-<input type="text" ng-model="text" ng-disabled="disabled()">
-<button ng-click="post(text)" ng-disabled="disabled()">Post</button>
 
-<h1 ng-show="conversation.data.attributes.status === 'finished'">FINISHED</h1>
+  <div class="chat"></div>
+    <div class="wait-message message" ng-hide="conversation.relationships.whoami">
+      <h4 class="wait-message__text">Wait for someone to join.</h4>
+      <i class="fa fa-hourglass-o wait-message__icon"></i>
+    </div>
 
-<div ng-show="showSurvey()">
-  <button ng-click="answer('bot')">Bot</button>
-  <button ng-click="answer('human')">Human</button>
-</div>
+    <div class="bot-message message" ng-show="
+      conversation.data.attributes.respondent === 'bot'
+      && conversation.relationships.whoami === user"
+    >
+      <h4 class="bot-message__text">Cleverbot will answer for you this time!</h4>
+    </div>
 
-<div ng-show="conversation.data.attributes.answer">
-  Answer was {{conversation.data.attributes.answer}} - true {{conversation.data.attributes.respondent}}
+    <div class="finished-message message" ng-show="conversation.data.attributes.status === 'finished'">
+      <h2 class="finished-message__text">Chat finished</h2>
+      <div class="finished-message__survey" ng-show="showSurvey()">
+        <h4 class="finished-message__text">Who were you talking with?</h4>
+        <div class="finished-message__survey__buttons">
+          <button class="finished-message__survey__buttons__button" ng-click="answer('bot')">Bot</button>
+          <button class="finished-message__survey__buttons__button" ng-click="answer('human')">Human</button>
+        </div>
+      </div>
+
+      <div class="finished-message__survey" ng-show="showDisabledSurvey()">
+        <h4 class="finished-message__text">Now the user is guessing who were he talking to.</h4>
+      </div>
+
+      <div class="finished-message__answer" ng-show="conversation.data.attributes.answer">
+        <span ng-show="conversation.data.attributes.answer === conversation.data.attributes.respondent">
+          Right, it was a {{conversation.data.attributes.respondent}}
+        </span>
+        <span ng-hide="conversation.data.attributes.answer === conversation.data.attributes.respondent">
+          Wrong, it was a {{conversation.data.attributes.respondent}}
+        </span>
+        <br><br>
+        <button class="button" ui-sref="in.menu">
+          <i class="fa fa-arrow-left"></i>
+          Back
+        </button>
+      </div>
+    </div>
+
+    <div class="chat__messages">
+      <div class="chat__messages__message" ng-class="{right: message.relationships.author === user}" ng-repeat="message in conversation.relationships.messages">
+        <div class="chat__messages__message__text">
+          {{message.data.attributes.text}}
+        </div>
+      </div>
+    </div>
+
+    <div class="chat__input" ng-class="{disabled: disabled()}">
+      <input class="chat__input__input" type="text" ng-model="text" ng-disabled="disabled()">
+      <button class="button chat__input__button" ng-click="post(text)" ng-disabled="disabled()">
+        Send
+        <i class="fa fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
 </div>

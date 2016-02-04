@@ -12,7 +12,9 @@
     "animate.css": "~3.4.0",
     "angular": "~1.4.2",
     "angular-jsonapi": "~1.0.0-alpha.7",
-    "ngCable": "^0.1.0"
+    "ngCable": "^0.1.0",
+    "normalize-css": "normalize.css#^3.0.3",
+    "font-awesome": "^4.5.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.2"
