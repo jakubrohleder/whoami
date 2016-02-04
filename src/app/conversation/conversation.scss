@@ -18,7 +18,7 @@ $blue: hsl(200, 100%, 50%);
 
 .message {
   text-align: center;
-  border: 3px $blue solid;
+  border: 4px $blue solid;
   width: 15em;
   height: 15em;
   padding: 0 1em 1em;
@@ -124,7 +124,7 @@ $blue: hsl(200, 100%, 50%);
 }
 
 .wait-message__icon {
-  font-size: 4em;
+  font-size: 8em;
   color: #ddd;
   -webkit-animation: rotateGlass 6s infinite ease-in-out;
 }

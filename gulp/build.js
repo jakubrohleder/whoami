@@ -43,6 +43,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(assets = $.useref.assets())
     .pipe($.rev())
     .pipe($.replace('../../bower_components/font-awesome/fonts', '../fonts'))
+    .pipe($.replace('localhost:5002', 'whoami-backend.herokuapp.com'))
     .pipe(jsFilter)
     .pipe($.sourcemaps.init())
     .pipe($.ngAnnotate())

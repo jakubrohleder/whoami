@@ -11,7 +11,7 @@
     $scope.user = user;
     $scope.join = join;
     $scope.start = start;
-    $scope.length = 1;
+    $scope.length = 10;
 
     Conversations.channel.on('created', function(){
       $scope.conversations = Conversations.all();
