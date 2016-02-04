@@ -11,5 +11,6 @@
     .constant('Cable', window.ActionCableReact.Cable)
     .constant('$cable', window.ActionCableReact.ActionCable.createConsumer('ws://localhost:5002/cable'))
     .constant('cleverbot', new Cleverbot('HlgZbIBb8jpa7HxE', 'PLhnwSBIeuGvDRPQWi0jlpHgwKwfVnwS'))
+    .constant('Favico', Favico)
   ;
 })();
