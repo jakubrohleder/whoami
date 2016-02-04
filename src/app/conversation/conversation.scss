@@ -129,6 +129,11 @@ $blue: hsl(200, 100%, 50%);
   -webkit-animation: rotateGlass 6s infinite ease-in-out;
 }
 
+.bot-message__icon {
+  font-size: 8em;
+  color: #ddd;
+}
+
 @-webkit-keyframes rotateGlass {
   40% {
     -webkit-transform: rotate(0deg);
