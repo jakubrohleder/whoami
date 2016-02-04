@@ -92,7 +92,7 @@
       var deffered = $q.defer();
       errorNb = errorNb === undefined ? 1 : errorNb;
 
-      if (errorNb > 2) {
+      if (errorNb > 5) {
         deffered.reject();
       } else {
         cleverbot.ask(text, function (err, response) {
