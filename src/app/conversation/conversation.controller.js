@@ -83,7 +83,12 @@
         var lastMessage = conversation.relationships.messages[conversation.relationships.messages.length - 1];
         var text = lastMessage.data.attributes.text;
         console.log(text);
-        getCleverbotAnswer(text).then(post)
+        getCleverbotAnswer(text).then(function(response){
+          console.log(response.length * 200);
+          $timeout(function() {
+            post(response);
+          }, response.length * 200);
+        });
       }
     });
 
@@ -104,9 +109,7 @@
               }, deffered.reject);
             }, 500);
           } else {
-            $timeout(function () {
-              deffered.resolve(response);
-            }, 500);
+            deffered.resolve(response);
           }
         });
       }
